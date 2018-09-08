@@ -1,0 +1,30 @@
+<% if @rooms.length < 1 %>
+  No Records<br/>
+<% else %>
+
+  <div class="scroll">
+    <table class="table table-scrollable table-condensed table-striped">
+      <thead>
+        <tr>
+          <th><%= Room.human_attribute_name(:name) %></th>
+          <th><%= Room.human_attribute_name(:capacity) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= @rooms.each do |room| %>
+          <tr>
+            <td><%= room.name %></td>
+            <td><%= room.capacity %></td>
+            <td class="nowrap">
+              <%= link_to(show_icon, [room], :title => t('admin/rooms.show.hover_title')) %>
+              <%= link_to(edit_icon, [:edit, room], :title => t('admin/rooms.edit.hover_title')) %>
+              <%= link_to(destroy_icon, [room], data: { confirm: 'Are you sure?' }, :method => :delete, :title => t('admin/rooms.destroy.hover_title')) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+
+<% end %>
