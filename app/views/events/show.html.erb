@@ -1,0 +1,15 @@
+<article>
+  <h1 class="shaded"><%= @page_title = t('rooms.show.title') %></h1>
+
+  <%= bootstrap_panel(Room.human_attribute_name(:basic_information)) do %>
+    <dl class="dl-horizontal">
+      <dt><label><%= Room.human_attribute_name(:name) %></label></dt><dd><%= @room.name %></dd>
+      <dt><label><%= Room.human_attribute_name(:capacity) %></label></dt><dd><%= @room.capacity %></dd>
+    </dl>
+  <% end %>
+
+  <div class="btn-group">
+    <%= link_to('Back', [:rooms], class: 'btn btn-index') %>
+    <%= link_to('Edit', [:edit, @room], class: 'btn btn-edit') %>
+  </div>
+</article>

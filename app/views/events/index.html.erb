@@ -1,0 +1,11 @@
+<article>
+  <h1 class="shaded"><%= @page_title = t('rooms.index.title') %></h1>
+
+  <div id="index">
+    <%= render "index" %>
+  </div>
+
+  <br />
+
+  <%= link_to(t('rooms.new.link'), [:new, :room], class: 'btn btn-new') %>
+</article>
