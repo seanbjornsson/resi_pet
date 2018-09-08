@@ -10,6 +10,14 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
 
+    if params[:start_datetime]
+      @event.start_datetime = Date.parse(params[:start_datetime])
+    end
+
+    if params[:end_datetime]
+      @event.end_datetime = Date.parse(params[:end_datetime] )
+    end
+
     @rooms = Room.all.collect {|p| [ p.name, p.id ] }
   end
 
@@ -50,6 +58,6 @@ class EventsController < ApplicationController
 private
 
   def resource_params
-    params[:event].permit(:start_datetime, :end_datetime, :room_id)
+    params[:event].permit(:name, :start_datetime, :end_datetime, :room_id)
   end
 end

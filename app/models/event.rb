@@ -21,6 +21,6 @@ class Event < ActiveRecord::Base
   end
 
   def to_s
-    "#{name}: #{start_datetime.strftime('%l:%M')}-#{end_datetime.strftime('%l:%M')}"
+    "#{name}: #{start_datetime.strftime('%l:%M')}-#{end_datetime.strftime('%l:%M')} <=> Room: #{room}"
   end
 end
