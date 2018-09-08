@@ -4,15 +4,17 @@ class EventsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
+    @event = Event.find(params[:id])
   end
 
   def new
     @event = Event.new
+
+    @rooms = Room.all.collect {|p| [ p.name, p.id ] }
   end
 
   def edit
-    @room = Room.find(params[:id])
+    @event = Event.find(params[:id])
   end
 
   def create
@@ -21,6 +23,8 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to @event
     else
+      @rooms = Room.all.collect {|p| [ p.name, p.id ] }
+
       render "new"
     end
   end
@@ -29,6 +33,8 @@ class EventsController < ApplicationController
     if @event.update_attributes(resource_params)
       redirect_to @event
     else
+      @rooms = Room.all.collect {|p| [ p.name, p.id ] }
+
       render "new"
     end
   end
@@ -44,8 +50,6 @@ class EventsController < ApplicationController
 private
 
   def resource_params
-    params[:event].permit(:start_datetime, :end_datetime, :room)
+    params[:event].permit(:start_datetime, :end_datetime, :room_id)
   end
-end
-
 end
