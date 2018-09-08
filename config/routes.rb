@@ -3,4 +3,10 @@ Rails.application.routes.draw do
   resources :events
 
   resources :rooms
+
+  get 'week' => 'calendar#week', as: :week
+
+  get 'day' => 'calendar#day', as: :day
+
+  root 'calendar#index'
 end

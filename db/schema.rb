@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_07_223121) do
+ActiveRecord::Schema.define(version: 2018_09_08_010255) do
 
   create_table "events", force: :cascade do |t|
     t.datetime "start_datetime"
     t.datetime "end_datetime"
     t.integer "room_id"
+    t.string "name"
     t.index ["room_id"], name: "index_events_on_room_id"
   end
 

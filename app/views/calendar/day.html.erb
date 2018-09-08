@@ -1,0 +1,17 @@
+<%= calendar(attribute: :start_datetime, end_attribute: :end_datetime, events: @events, number_of_days: 1) do |date, events| %>
+  <%= date %>
+
+  <% events.each do |event| %>
+    <div>
+      <%= event %>
+    </div>
+  <% end %>
+
+  <br/>
+
+  <%= link_to(t('events.new.link'), new_event_path(start_datetime: date, end_datetime: date), class: 'btn btn-new') %>
+<% end %>
+
+<br/>
+
+<%= link_to('Back', root_path, class: 'btn btn-index') %>
