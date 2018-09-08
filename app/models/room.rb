@@ -1,18 +1,27 @@
 require Rails.root.to_s + '/lib/google_calendar_api.rb'
 class Room
+  include ActiveModel::Model
   attr_accessor :id, :calendar, :connection
 
-  def to_s
-    "#{name} - Accomodates #{capacity}"
+  def self.cache
+    @@cache ||= build_rooms
+  end
+
+  def self.refresh_cache
+    @@cache = build_rooms
+  end
+
+  def self.build_rooms
+    all_room_calendar_ids.map { |id| Room.new(id) }
   end
 
   def self.first
     all.first
   end
 
-  def self.all
-    ids = all_room_calendar_ids
-    ids.map { |id| Room.new(id) }
+  def self.all(refresh: false)
+    refresh_cache if refresh
+    cache
   end
 
   def self.all_ids
@@ -37,11 +46,35 @@ class Room
   end
 
   def events(options = {})
-    max_results = options.fetch(:max_results, 10)
-    # raise 'Please filter room events by date' unless start_date && end_date
+    start_date_time = options.fetch(:start_date_time, nil)
+    end_date_time = options.fetch(:end_date_time, nil)
 
-    items = connection.list_events(id, max_results: max_results).items
-    items.map { |item| Event.new(id, item) }
+    # limit if no start and end date selected
+    max_results = start_date_time && end_date_time ? nil : 10
+
+    options = { max_results: max_results }
+    options.merge!(time_max: end_date_time.rfc3339) if end_date_time.present?
+    options.merge!(time_min: start_date_time.rfc3339) if start_date_time.present?
+
+    items = connection.list_events(id, options).items
+    events = items.map { |item| Event.new(id, item) }
+    events.reject { |event| event.status == 'cancelled' }
+  end
+
+  def to_s
+    "#{name} - Accomodates #{capacity}"
+  end
+
+  def name
+    calendar.summary.split('38 Chauncy Street-10-').last.split('(').first.strip
+  end
+
+  def capacity
+    calendar.summary.scan(/\((\d)\)/).flatten.first.to_i
+  end
+
+  def available?(start_date_time:, end_date_time:)
+    events(start_date_time: start_date_time, end_date_time: end_date_time).blank?
   end
 
   # private
