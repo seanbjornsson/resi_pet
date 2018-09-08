@@ -1,10 +1,9 @@
-
 <article>
-  <h1 class="shaded"><%= @page_title = t('rooms.new.title') %></h1>
+  <h1 class="shaded"><%= @page_title = t('events.new.title') %></h1>
 
-  <%= render 'form', button: t('rooms.new.button') %>
+  <%= render 'form', button: t('events.new.button') %>
 
   <div class="btn-group">
-    <%= link_to('Back', [:rooms], class: 'btn btn-index') %>
+    <%= link_to('Back', [:events], class: 'btn btn-index') %>
   </div>
 </article>

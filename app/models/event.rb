@@ -1,10 +1,10 @@
 class Event < ActiveRecord::Base
   belongs_to :room
 
-  validates :room_available?
+  validate :room_available?
 
-  validates :valid_start_datetime_and_end_datetime
-  validates :no_event_overlap
+  validate :valid_start_datetime_and_end_datetime
+  validate :no_event_overlap
 
   def room_available?
     return true
