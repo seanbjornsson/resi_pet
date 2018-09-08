@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
   belongs_to :room
 
+  validates :name, presence: true
+
   validate :room_available?
 
   validate :valid_start_datetime_and_end_datetime
@@ -16,5 +18,9 @@ class Event < ActiveRecord::Base
 
   def no_event_overlap
     return true
+  end
+
+  def to_s
+    "#{name}: #{start_datetime.strftime('%l:%M')}-#{end_datetime.strftime('%l:%M')}"
   end
 end
